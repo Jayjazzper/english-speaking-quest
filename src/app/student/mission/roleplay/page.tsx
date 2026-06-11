@@ -29,35 +29,34 @@ export default function RolePlayMission() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Chat Interface */}
           <div className="bg-gray-700/30 rounded-2xl p-6 border border-gray-600 h-96 flex flex-col">
-            <div className="w-full max-w-lg mb-8 relative">
-              <div className="absolute -left-4 top-1/2 -translate-y-1/2">
-                <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center text-3xl border-4 border-gray-600 shadow-lg">
-                  🧑‍🍳
+            <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-xl shadow-lg border-2 border-gray-500">👮</div>
+                <div className="bg-gray-600 p-4 rounded-2xl rounded-tl-none shadow-lg border border-gray-500 relative max-w-[80%] text-sm">
+                  <div className="absolute top-1 right-1">
+                    <TextToSpeech text="Good morning. Can I see your passport and boarding pass, please?" />
+                  </div>
+                  <p className="mr-8 leading-relaxed font-medium">Good morning. Can I see your passport and boarding pass, please?</p>
                 </div>
               </div>
-              <div className="ml-16 bg-gray-700 p-6 rounded-2xl rounded-tl-none shadow-lg border border-gray-600 relative">
-                <div className="absolute top-2 right-2">
-                  <TextToSpeech text="Hi there! What kind of candy would you like to buy today?" />
-                </div>
-                <p className="text-xl font-medium text-gray-200 mr-8">
-                  "Hi there! What kind of candy would you like to buy today?"
-                </p>
-              </div>
-            </div>  
+              
               {step > 1 && (
                 <div className="flex gap-4 flex-row-reverse">
-                  <div className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center text-xl text-white font-bold">S</div>
-                  <div className="bg-orange-600 p-3 rounded-2xl rounded-tr-none max-w-[80%] text-sm">
+                  <div className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center text-xl text-white font-bold shadow-lg border-2 border-orange-500">S</div>
+                  <div className="bg-orange-600 p-4 rounded-2xl rounded-tr-none shadow-lg max-w-[80%] text-sm">
                     Yes, here they are.
                   </div>
                 </div>
               )}
 
               {step > 1 && (
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-xl">👮</div>
-                  <div className="bg-gray-600 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-sm">
-                    Thank you. Are you checking any bags today?
+                <div className="flex gap-4 animate-fade-in-up">
+                  <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-xl shadow-lg border-2 border-gray-500">👮</div>
+                  <div className="bg-gray-600 p-4 rounded-2xl rounded-tl-none shadow-lg border border-gray-500 relative max-w-[80%] text-sm">
+                    <div className="absolute top-1 right-1">
+                      <TextToSpeech text="Thank you. Are you checking any bags today?" />
+                    </div>
+                    <p className="mr-8 leading-relaxed font-medium">Thank you. Are you checking any bags today?</p>
                   </div>
                 </div>
               )}
@@ -93,7 +92,7 @@ export default function RolePlayMission() {
              </div>
              
              {step > 1 && (
-               <button onClick={() => alert('Mission Submitted!')} className="w-full bg-green-600 hover:bg-green-500 py-3 rounded-xl font-bold transition">
+               <button onClick={() => alert('Mission Submitted!')} className="w-full bg-green-600 hover:bg-green-500 py-3 rounded-xl font-bold transition animate-fade-in-up">
                  Finish Roleplay
                </button>
              )}
