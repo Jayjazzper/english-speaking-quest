@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMicrophone } from "@/hooks/useMicrophone";
 
 export default function CoopMission() {
   const router = useRouter();
+  const { isRecording, toggleRecording } = useMicrophone();
   const [partner, setPartner] = useState<string | null>(null);
   const [status, setStatus] = useState("waiting"); // waiting, connected, speaking
 
@@ -74,8 +76,15 @@ export default function CoopMission() {
           <div className="w-full bg-gray-800 p-6 rounded-2xl border border-gray-700 text-center animate-fade-in-up">
             <h3 className="text-lg font-bold text-blue-400 mb-4">It's your turn to speak!</h3>
             <p className="text-xl mb-6">"Tell me about your previous work experience."</p>
-            <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-4 px-12 rounded-full shadow-lg shadow-green-500/20 transition-all hover:scale-105 active:scale-95">
-              🎤 Hold to Speak
+            <button 
+              onClick={toggleRecording}
+              className={`font-bold py-4 px-12 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 ${
+                isRecording 
+                  ? "bg-red-500 hover:bg-red-400 text-white shadow-red-500/50 animate-pulse" 
+                  : "bg-green-500 hover:bg-green-400 text-white shadow-green-500/20"
+              }`}
+            >
+              🎤 {isRecording ? "Recording... (Tap to send)" : "Tap to Speak"}
             </button>
           </div>
         )}

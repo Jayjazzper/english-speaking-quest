@@ -1,14 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMicrophone } from "@/hooks/useMicrophone";
 
 export default function StoryModeMission() {
   const router = useRouter();
   const [panelIndex, setPanelIndex] = useState(0);
-  const [isRecording, setIsRecording] = useState(false);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
+
+  const { isRecording, toggleRecording } = useMicrophone(() => {
+    console.log("Audio recorded and processed.");
+  });
 
   // Comic panels for the story
   const panels = [
@@ -37,45 +39,8 @@ export default function StoryModeMission() {
       setPanelIndex(panelIndex + 1);
     } else {
       // Finish Story
-      const audio = new Audio("https://cdn.freesound.org/previews/320/320655_527080-lq.mp3"); // Confetti sound placeholder
-      audio.play().catch(()=>console.log("Audio play blocked by browser"));
       alert("🎉 YAY! You finished the story! +50 Stars!");
       router.push("/student");
-    }
-  };
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        // Pretend to process audio
-        console.log("Audio recorded and processed.");
-      };
-
-      mediaRecorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
-      alert("Please allow microphone access to practice reading.");
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      // Stop all audio tracks to turn off the mic light
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
     }
   };
 
@@ -120,18 +85,15 @@ export default function StoryModeMission() {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between bg-white p-6 rounded-[2rem] border-4 border-sky-200 shadow-[0_8px_0_#BAE6FD] gap-6">
           <div className="flex-1 text-center sm:text-left">
             <p className="font-extrabold text-sky-600 text-lg mb-1">Your Turn to Read!</p>
-            <p className="text-sm font-bold text-gray-500">Hold the mic and read the text aloud.</p>
+            <p className="text-sm font-bold text-gray-500">Tap the mic to start reading, tap again to stop.</p>
           </div>
           
           <div className="flex items-center gap-4">
             <button 
-              onMouseDown={startRecording}
-              onMouseUp={stopRecording}
-              onTouchStart={startRecording}
-              onTouchEnd={stopRecording}
+              onClick={toggleRecording}
               className={`w-20 h-20 rounded-full flex items-center justify-center text-4xl border-4 transition-all ${
                 isRecording 
-                  ? 'bg-red-500 border-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95' 
+                  ? 'bg-red-500 border-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95 animate-pulse' 
                   : 'bg-rose-400 border-rose-500 shadow-[0_6px_0_#E11D48] hover:bg-rose-300 hover:-translate-y-1'
               }`}
             >

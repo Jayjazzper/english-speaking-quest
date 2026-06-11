@@ -1,54 +1,29 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useMicrophone } from "@/hooks/useMicrophone";
 
 export default function MissionRoom({ params }: { params: { id: string } }) {
-  const [isRecording, setIsRecording] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const chunksRef = useRef<BlobPart[]>([]);
-  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      chunksRef.current = [];
+  const { isRecording, toggleRecording } = useMicrophone((blob) => {
+    const url = URL.createObjectURL(blob);
+    setAudioUrl(url);
+  });
 
-      mediaRecorderRef.current.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunksRef.current.push(e.data);
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(chunksRef.current, { type: "audio/webm" });
-        const url = URL.createObjectURL(audioBlob);
-        setAudioUrl(url);
-      };
-
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRecording) {
       setTimer(0);
-      timerIntervalRef.current = setInterval(() => setTimer(t => t + 1), 1000);
-    } catch (err) {
-      console.error("Error accessing microphone", err);
-      alert("Please allow microphone access to complete the mission.");
+      interval = setInterval(() => setTimer(t => t + 1), 1000);
     }
-  };
+    return () => clearInterval(interval);
+  }, [isRecording]);
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-      // Stop all tracks to release mic
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
-    }
-  };
+  // startRecording and stopRecording removed as they are handled by useMicrophone
 
   const handleSubmit = () => {
     // In MVP, we just pretend to submit
@@ -74,7 +49,7 @@ export default function MissionRoom({ params }: { params: { id: string } }) {
           {/* Recording UI */}
           <div className="relative">
             <button
-              onClick={isRecording ? stopRecording : startRecording}
+              onClick={toggleRecording}
               className={`w-32 h-32 rounded-full flex items-center justify-center transition-all shadow-xl ${
                 isRecording 
                   ? "bg-red-500 animate-pulse border-4 border-red-300" 

@@ -2,17 +2,23 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useMicrophone } from "@/hooks/useMicrophone";
 
 export default function AITutorMission() {
   const router = useRouter();
   const [isCalling, setIsCalling] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
 
   const [chatLog, setChatLog] = useState([
     { speaker: "ai", text: "Hello! I'm your AI English Tutor. Are you ready to practice ordering at a restaurant?" }
   ]);
+
+  const { isRecording, toggleRecording, stopRecording } = useMicrophone(() => {
+    // Simulated AI Processing on stop
+    setChatLog(prev => [...prev, { speaker: "student", text: "(Audio Recorded 🎵) I would like a cappuccino, please." }]);
+    setTimeout(() => {
+      setChatLog(prev => [...prev, { speaker: "ai", text: "A cappuccino, great choice. Would you like that hot or iced?" }]);
+    }, 2000);
+  });
 
   const handleToggleCall = () => {
     if (isCalling) {
@@ -23,45 +29,6 @@ export default function AITutorMission() {
       setTimeout(() => {
         setChatLog(prev => [...prev, { speaker: "ai", text: "Welcome to StarBites! What would you like to order today?" }]);
       }, 1500);
-    }
-  };
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        // Here we would normally send audioChunksRef.current to an AI API (like Whisper)
-        // For now, we simulate the AI transcribing and responding after 2 seconds
-        setChatLog(prev => [...prev, { speaker: "student", text: "(Audio Recorded 🎵) I would like a cappuccino, please." }]);
-        setTimeout(() => {
-          setChatLog(prev => [...prev, { speaker: "ai", text: "A cappuccino, great choice. Would you like that hot or iced?" }]);
-        }, 2000);
-      };
-
-      mediaRecorder.start();
-      setIsRecording(true);
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
-      alert("Please allow microphone access to practice speaking.");
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      // Stop all audio tracks to turn off the mic light
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
     }
   };
 
@@ -124,12 +91,9 @@ export default function AITutorMission() {
           
           {isCalling && (
              <button 
-               onMouseDown={startRecording}
-               onMouseUp={stopRecording}
-               onTouchStart={startRecording}
-               onTouchEnd={stopRecording}
+               onClick={toggleRecording}
                className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl shadow-xl transition-all border-4 ${
-                 isRecording ? 'bg-pink-500 border-pink-300 scale-110 shadow-[0_0_30px_rgba(236,72,153,0.8)]' : 'bg-gray-800 border-gray-600 hover:bg-gray-700'
+                 isRecording ? 'bg-pink-500 border-pink-300 scale-110 shadow-[0_0_30px_rgba(236,72,153,0.8)] animate-pulse' : 'bg-gray-800 border-gray-600 hover:bg-gray-700'
                }`}
              >
                🎤
@@ -139,7 +103,7 @@ export default function AITutorMission() {
         
         {isCalling && (
           <p className="text-center text-gray-400 text-xs mt-[-10px] pb-4">
-            Hold 🎤 to speak, release to send
+            Tap 🎤 to speak, tap again to send
           </p>
         )}
       </div>
