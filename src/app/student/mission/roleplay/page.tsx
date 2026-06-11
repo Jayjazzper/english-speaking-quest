@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 export default function RolePlayMission() {
@@ -16,7 +15,7 @@ export default function RolePlayMission() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 relative">
-      <VoiceSelector />
+      
       
       <div className="w-full max-w-4xl bg-gray-800 rounded-3xl p-8 shadow-2xl border border-gray-700">
         <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">

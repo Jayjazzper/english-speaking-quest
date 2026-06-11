@@ -4,7 +4,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 export default function PictureSpeakingMission() {
@@ -13,7 +12,7 @@ export default function PictureSpeakingMission() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 font-sans relative">
-      <VoiceSelector />
+      
       
       <div className="max-w-4xl mx-auto flex flex-col h-[calc(100vh-2rem)] bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700">
         <div className="flex justify-between items-center p-8 border-b border-gray-700">

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 const XRScene = dynamic(() => import("./XRScene"), { ssr: false, loading: () => <div className="text-white absolute inset-0 flex items-center justify-center">Loading 3D World...</div> });
@@ -14,7 +13,7 @@ export default function WebXRMission() {
 
   return (
     <div className="w-full h-screen bg-gray-900 relative">
-      <VoiceSelector />
+      
       
       <div className="absolute top-8 left-8 z-10">
         <button onClick={() => router.back()} className="text-white bg-black/50 px-4 py-2 rounded-full backdrop-blur font-bold hover:bg-black/70 transition">

@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 export default function StoryModeMission() {
@@ -50,7 +49,7 @@ export default function StoryModeMission() {
 
   return (
     <div className="min-h-screen bg-sky-100 flex flex-col p-4 md:p-8 relative">
-      <VoiceSelector />
+      
       
       <div className="w-full max-w-2xl mx-auto">
         {/* Header */}

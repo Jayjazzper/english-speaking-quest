@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 export default function CoopMission() {
@@ -22,7 +21,7 @@ export default function CoopMission() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8 relative">
-      <VoiceSelector />
+      
       
       <header className="flex justify-between items-center mb-8">
         <button onClick={() => router.back()} className="text-blue-400 hover:text-blue-300 font-bold">

@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
-import VoiceSelector from "@/components/VoiceSelector";
 import TextToSpeech from "@/components/TextToSpeech";
 
 export default function AITutorMission() {
@@ -36,7 +35,7 @@ export default function AITutorMission() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 flex flex-col items-center font-sans">
-      <VoiceSelector />
+      
       <div className="w-full max-w-3xl flex justify-between items-center mb-8 pt-4">
         <button onClick={() => router.back()} className="text-gray-400 hover:text-white font-bold">&larr; Quit Mission</button>
         <span className="bg-pink-900/50 text-pink-300 px-3 py-1 rounded-full text-sm font-mono border border-pink-800">
