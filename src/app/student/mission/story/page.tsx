@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function StoryModeMission() {
   const router = useRouter();
   const [panelIndex, setPanelIndex] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   // Comic panels for the story
   const panels = [
@@ -42,6 +44,41 @@ export default function StoryModeMission() {
     }
   };
 
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        // Pretend to process audio
+        console.log("Audio recorded and processed.");
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error("Error accessing microphone:", error);
+      alert("Please allow microphone access to practice reading.");
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      // Stop all audio tracks to turn off the mic light
+      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+    }
+  };
+
   const currentPanel = panels[panelIndex];
 
   return (
@@ -67,7 +104,12 @@ export default function StoryModeMission() {
             {currentPanel.imageEmoji}
           </div>
           
-          <div className="bg-white p-6 rounded-3xl border-4 border-black/10 shadow-md text-center max-w-md">
+          <div className="bg-white p-6 rounded-3xl border-4 border-black/10 shadow-md text-center max-w-md relative">
+             {isRecording && (
+                <div className="absolute -top-4 -right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse shadow-md">
+                   🎙️ Recording
+                </div>
+             )}
             <p className="text-2xl font-black text-gray-800 leading-tight">
               "{currentPanel.text}"
             </p>
@@ -83,8 +125,10 @@ export default function StoryModeMission() {
           
           <div className="flex items-center gap-4">
             <button 
-              onMouseDown={() => setIsRecording(true)}
-              onMouseUp={() => setIsRecording(false)}
+              onMouseDown={startRecording}
+              onMouseUp={stopRecording}
+              onTouchStart={startRecording}
+              onTouchEnd={stopRecording}
               className={`w-20 h-20 rounded-full flex items-center justify-center text-4xl border-4 transition-all ${
                 isRecording 
                   ? 'bg-red-500 border-red-600 shadow-[0_0_20px_rgba(239,68,68,0.5)] scale-95' 
