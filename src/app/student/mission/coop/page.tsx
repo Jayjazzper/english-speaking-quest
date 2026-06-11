@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
+import VoiceSelector from "@/components/VoiceSelector";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function CoopMission() {
   const router = useRouter();
@@ -19,7 +21,9 @@ export default function CoopMission() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white p-8 relative">
+      <VoiceSelector />
+      
       <header className="flex justify-between items-center mb-8">
         <button onClick={() => router.back()} className="text-blue-400 hover:text-blue-300 font-bold">
           &larr; Leave Lobby
@@ -75,7 +79,10 @@ export default function CoopMission() {
         {status === "connected" && (
           <div className="w-full bg-gray-800 p-6 rounded-2xl border border-gray-700 text-center animate-fade-in-up">
             <h3 className="text-lg font-bold text-blue-400 mb-4">It's your turn to speak!</h3>
-            <p className="text-xl mb-6">"Tell me about your previous work experience."</p>
+            <div className="flex justify-center items-center gap-3 mb-6">
+              <TextToSpeech text="Tell me about your previous work experience." />
+              <p className="text-xl">"Tell me about your previous work experience."</p>
+            </div>
             <button 
               onClick={toggleRecording}
               className={`font-bold py-4 px-12 rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 ${

@@ -1,26 +1,36 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
+import VoiceSelector from "@/components/VoiceSelector";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function PictureSpeakingMission() {
   const router = useRouter();
   const { isRecording, toggleRecording } = useMicrophone();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-4xl bg-gray-800 rounded-3xl p-8 shadow-2xl border border-gray-700">
-        <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
+    <div className="min-h-screen bg-gray-900 text-white p-4 font-sans relative">
+      <VoiceSelector />
+      
+      <div className="max-w-4xl mx-auto flex flex-col h-[calc(100vh-2rem)] bg-gray-800 rounded-3xl overflow-hidden shadow-2xl border border-gray-700">
+        <div className="flex justify-between items-center p-8 border-b border-gray-700">
           <h1 className="text-2xl font-bold text-purple-400">Mission: Picture Speaking</h1>
           <span className="bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full text-sm font-mono border border-purple-800">
             CEFR B1
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
           <div className="space-y-6">
             <div className="bg-gray-700/50 rounded-2xl p-6 text-lg text-gray-200 leading-relaxed">
-              "Look at the picture on the right. Describe what is happening. What are the people doing? What is the weather like? Tap the mic to start, tap again to stop."
+              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+                <TextToSpeech text="Describe this picture. What are the people doing? Use at least 3 sentences." />
+                Describe this picture.
+              </h2>
+              What are the people doing? What is the weather like? Tap the mic to start, tap again to stop.
             </div>
             
             <div className="flex flex-col items-center justify-center space-y-6 bg-gray-900/50 p-8 rounded-2xl border border-gray-700">

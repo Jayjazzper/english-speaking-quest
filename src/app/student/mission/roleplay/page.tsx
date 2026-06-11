@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMicrophone } from "@/hooks/useMicrophone";
+import VoiceSelector from "@/components/VoiceSelector";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function RolePlayMission() {
   const router = useRouter();
@@ -13,7 +15,9 @@ export default function RolePlayMission() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 relative">
+      <VoiceSelector />
+      
       <div className="w-full max-w-4xl bg-gray-800 rounded-3xl p-8 shadow-2xl border border-gray-700">
         <div className="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
           <h1 className="text-2xl font-bold text-orange-400">Mission: Role Play - Airport</h1>
@@ -25,14 +29,21 @@ export default function RolePlayMission() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Chat Interface */}
           <div className="bg-gray-700/30 rounded-2xl p-6 border border-gray-600 h-96 flex flex-col">
-            <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-xl">👮</div>
-                <div className="bg-gray-600 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-sm">
-                  Good morning. Can I see your passport and boarding pass, please?
+            <div className="w-full max-w-lg mb-8 relative">
+              <div className="absolute -left-4 top-1/2 -translate-y-1/2">
+                <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center text-3xl border-4 border-gray-600 shadow-lg">
+                  🧑‍🍳
                 </div>
               </div>
-              
+              <div className="ml-16 bg-gray-700 p-6 rounded-2xl rounded-tl-none shadow-lg border border-gray-600 relative">
+                <div className="absolute top-2 right-2">
+                  <TextToSpeech text="Hi there! What kind of candy would you like to buy today?" />
+                </div>
+                <p className="text-xl font-medium text-gray-200 mr-8">
+                  "Hi there! What kind of candy would you like to buy today?"
+                </p>
+              </div>
+            </div>  
               {step > 1 && (
                 <div className="flex gap-4 flex-row-reverse">
                   <div className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center text-xl text-white font-bold">S</div>

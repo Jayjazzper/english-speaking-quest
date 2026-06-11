@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
+import VoiceSelector from "@/components/VoiceSelector";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function StoryModeMission() {
   const router = useRouter();
@@ -47,8 +49,10 @@ export default function StoryModeMission() {
   const currentPanel = panels[panelIndex];
 
   return (
-    <div className="min-h-screen bg-sky-50 p-4 flex flex-col items-center justify-center font-sans">
-      <div className="w-full max-w-2xl">
+    <div className="min-h-screen bg-sky-100 flex flex-col p-4 md:p-8 relative">
+      <VoiceSelector />
+      
+      <div className="w-full max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button onClick={() => router.back()} className="text-sky-500 font-extrabold bg-white px-4 py-2 rounded-full border-4 border-sky-200 shadow-sm hover:scale-105 transition-transform">
@@ -75,9 +79,14 @@ export default function StoryModeMission() {
                    🎙️ Recording
                 </div>
              )}
-            <p className="text-2xl font-black text-gray-800 leading-tight">
-              "{currentPanel.text}"
-            </p>
+            <div className="w-full text-center mb-6 bg-white/80 p-4 rounded-2xl border border-sky-100 inline-block shadow-sm">
+              <div className="flex items-center justify-center gap-3">
+                <TextToSpeech text={panels[panelIndex].text} />
+                <p className="text-xl md:text-2xl font-bold text-gray-800 tracking-wide leading-relaxed">
+                  {panels[panelIndex].text}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 

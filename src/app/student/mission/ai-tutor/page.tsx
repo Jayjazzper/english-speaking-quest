@@ -1,22 +1,24 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useMicrophone } from "@/hooks/useMicrophone";
+import VoiceSelector from "@/components/VoiceSelector";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function AITutorMission() {
   const router = useRouter();
   const [isCalling, setIsCalling] = useState(false);
 
   const [chatLog, setChatLog] = useState([
-    { speaker: "ai", text: "Hello! I'm your AI English Tutor. Are you ready to practice ordering at a restaurant?" }
+    { speaker: "ai", role: "ai", text: "Hello! I'm your AI English Tutor. Are you ready to practice ordering at a restaurant?" }
   ]);
 
   const { isRecording, toggleRecording, stopRecording } = useMicrophone(() => {
     // Simulated AI Processing on stop
-    setChatLog(prev => [...prev, { speaker: "student", text: "(Audio Recorded 🎵) I would like a cappuccino, please." }]);
+    setChatLog(prev => [...prev, { speaker: "student", role: "student", text: "(Audio Recorded 🎵) I would like a cappuccino, please." }]);
     setTimeout(() => {
-      setChatLog(prev => [...prev, { speaker: "ai", text: "A cappuccino, great choice. Would you like that hot or iced?" }]);
+      setChatLog(prev => [...prev, { speaker: "ai", role: "ai", text: "A cappuccino, great choice. Would you like that hot or iced?" }]);
     }, 2000);
   });
 
@@ -27,13 +29,14 @@ export default function AITutorMission() {
     } else {
       setIsCalling(true);
       setTimeout(() => {
-        setChatLog(prev => [...prev, { speaker: "ai", text: "Welcome to StarBites! What would you like to order today?" }]);
+        setChatLog(prev => [...prev, { speaker: "ai", role: "ai", text: "Welcome to StarBites! What would you like to order today?" }]);
       }, 1500);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 flex flex-col items-center font-sans">
+      <VoiceSelector />
       <div className="w-full max-w-3xl flex justify-between items-center mb-8 pt-4">
         <button onClick={() => router.back()} className="text-gray-400 hover:text-white font-bold">&larr; Quit Mission</button>
         <span className="bg-pink-900/50 text-pink-300 px-3 py-1 rounded-full text-sm font-mono border border-pink-800">
@@ -63,10 +66,19 @@ export default function AITutorMission() {
         <div className="flex-1 bg-gray-800/80 rounded-3xl p-6 border border-gray-700 overflow-y-auto mb-8 space-y-4">
           {chatLog.map((msg, idx) => (
             <div key={idx} className={`flex ${msg.speaker === 'ai' ? 'justify-start' : 'justify-end'}`}>
-              <div className={`max-w-[80%] p-4 rounded-2xl ${
-                msg.speaker === 'ai' ? 'bg-pink-900/50 text-pink-100 rounded-tl-none border border-pink-800' : 'bg-blue-600 text-white rounded-tr-none'
-              }`}>
-                {msg.text}
+              <div
+                className={`max-w-[80%] rounded-2xl p-4 shadow-sm ${
+                  msg.role === "ai"
+                    ? "bg-pink-900/50 text-pink-100 border border-pink-800"
+                    : "bg-blue-600 text-white"
+                }`}
+              >
+                <div className="flex items-start gap-2">
+                  <p className="text-lg">{msg.text}</p>
+                  {msg.role === "ai" && (
+                    <TextToSpeech text={msg.text} className="shrink-0 mt-0.5" />
+                  )}
+                </div>
               </div>
             </div>
           ))}
