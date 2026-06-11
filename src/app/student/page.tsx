@@ -3,19 +3,24 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-const mockMissions = [
-  { id: "1", title: "Say Hello!", type: "Audio", xp: 20, status: "completed", emoji: "👋", color: "bg-green-100 border-green-400 text-green-800" },
-  { id: "story", title: "Magic Forest", type: "Story Mode", xp: 50, status: "pending", emoji: "🦄", color: "bg-pink-100 border-pink-400 text-pink-800" },
-  { id: "picture", title: "My Family", type: "Picture", xp: 30, status: "pending", emoji: "👨‍👩‍👧", color: "bg-yellow-100 border-yellow-400 text-yellow-800" },
-  { id: "2", title: "Buying Candy", type: "Role Play", xp: 40, status: "locked", emoji: "🍬", color: "bg-gray-100 border-gray-300 text-gray-400 grayscale" },
-];
+import { useState, useEffect } from "react";
 
 export default function StudentDashboardKids() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [dashboardData, setDashboardData] = useState<any>(null);
 
-  if (status === "loading") return <div className="p-4 md:p-8 text-center text-2xl font-bold text-orange-500 animate-bounce">Loading Magic... ✨</div>;
+  useEffect(() => {
+    fetch('/api/student/dashboard')
+      .then(res => res.json())
+      .then(data => setDashboardData(data))
+      .catch(err => console.error("Failed to fetch dashboard data:", err));
+  }, []);
+
+  if (status === "loading" || !dashboardData) return <div className="p-4 md:p-8 text-center text-2xl font-bold text-orange-500 animate-bounce">Loading Magic... ✨</div>;
+
+  const user = dashboardData.user;
+  const missions = dashboardData.missions;
 
   return (
     <div className="min-h-screen bg-[#FFFBEB] p-4 md:p-8 font-sans">
@@ -27,10 +32,10 @@ export default function StudentDashboardKids() {
           </div>
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-orange-600 tracking-tight leading-tight">
-              Hi, {session?.user?.name || 'Buddy'}!
+              Hi, {session?.user?.name || user?.name || 'Buddy'}!
             </h1>
             <div className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-bold inline-flex items-center mt-1">
-              🌟 Level 3 Explorer
+              🌟 Level {user?.level || 1} Explorer
             </div>
           </div>
         </div>
@@ -38,11 +43,11 @@ export default function StudentDashboardKids() {
         <div className="flex gap-4 w-full md:w-auto justify-around bg-yellow-50 p-3 rounded-2xl border-2 border-yellow-200">
           <div className="text-center">
             <p className="text-xs text-yellow-600 font-extrabold uppercase">Stars</p>
-            <p className="text-2xl font-black text-yellow-500">1,240 ⭐</p>
+            <p className="text-2xl font-black text-yellow-500">{user?.xp?.toLocaleString() || 0} ⭐</p>
           </div>
           <div className="text-center">
             <p className="text-xs text-orange-600 font-extrabold uppercase">Streak</p>
-            <p className="text-2xl font-black text-orange-500">5 🔥</p>
+            <p className="text-2xl font-black text-orange-500">{user?.streak || 0} 🔥</p>
           </div>
         </div>
       </header>
@@ -61,7 +66,7 @@ export default function StudentDashboardKids() {
           
           {/* Mission Cards: Stack on mobile, grid on tablet/desktop */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {mockMissions.map((mission) => (
+            {missions.map((mission: any) => (
               <div 
                 key={mission.id} 
                 className={`p-5 rounded-[2rem] border-4 transition-transform ${mission.color} ${
