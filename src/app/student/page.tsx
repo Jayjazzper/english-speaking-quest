@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import TextToSpeech from "@/components/TextToSpeech";
 
 export default function StudentDashboardKids() {
   const { data: session, status } = useSession();
@@ -61,7 +62,10 @@ export default function StudentDashboardKids() {
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
                   <div className="text-7xl md:text-9xl mb-6 floating-icon stagger-1 group-hover:scale-110 transition-transform duration-300">🎯</div>
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 fun-title text-gray-800">Solo Mode</h3>
+                  <h3 className="text-3xl md:text-4xl font-bold mb-4 fun-title text-gray-800 flex items-center justify-center gap-2">
+                    Solo Mode
+                    <TextToSpeech text="Solo Mode" className="scale-75" />
+                  </h3>
                   <p className="text-lg md:text-xl font-medium mb-6 text-gray-600">เรียนคนเดียวกับ AI Teacher ที่ฉลาดและเข้าใจคุณ</p>
                   <div className="flex justify-center flex-wrap gap-2 md:gap-3 mb-6">
                       <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">🤖 AI ฉลาด</span>
@@ -77,7 +81,10 @@ export default function StudentDashboardKids() {
               <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <div className="relative z-10">
                   <div className="text-7xl md:text-9xl mb-6 floating-icon stagger-2 group-hover:scale-110 transition-transform duration-300">👥</div>
-                  <h3 className="text-3xl md:text-4xl font-bold mb-4 fun-title text-gray-800">Pair Mode</h3>
+                  <h3 className="text-3xl md:text-4xl font-bold mb-4 fun-title text-gray-800 flex items-center justify-center gap-2">
+                    Pair Mode
+                    <TextToSpeech text="Pair Mode" className="scale-75" />
+                  </h3>
                   <p className="text-lg md:text-xl font-medium mb-6 text-gray-600">เรียนคู่กับเพื่อนหรือครู สนุกและมีปฏิสัมพันธ์</p>
                   <div className="flex justify-center flex-wrap gap-2 md:gap-3 mb-6">
                       <span className="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">👫 เรียนคู่</span>
@@ -172,6 +179,7 @@ export default function StudentDashboardKids() {
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3 drop-shadow-sm">
                     <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-1.5 rounded-full shadow-lg">{unit.split(':')[0]}</span>
                     {unit.split(':')[1] || unit}
+                    <TextToSpeech text={unit.split(':')[1] || unit} className="scale-75 ml-2" />
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {unitMissions.map((mission: any) => (
@@ -185,7 +193,12 @@ export default function StudentDashboardKids() {
                             <span className="text-5xl drop-shadow-md floating-icon">{mission.emoji}</span>
                             <span className="font-bold text-sm bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full shadow-md">{mission.xp} ⭐</span>
                           </div>
-                          <h3 className="font-extrabold text-xl mb-2 text-gray-800 tracking-tight">{mission.title}</h3>
+                          <div className="flex justify-between items-center mb-2">
+                            <h3 className="font-extrabold text-xl text-gray-800 tracking-tight">{mission.title}</h3>
+                            <div onClick={(e) => e.preventDefault()}>
+                              <TextToSpeech text={mission.title} className="scale-75" />
+                            </div>
+                          </div>
                           <p className="text-sm font-medium text-gray-500 mb-4">{mission.type}</p>
                           
                           {mission.status === "completed" ? (
