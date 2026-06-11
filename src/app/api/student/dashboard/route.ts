@@ -63,6 +63,7 @@ export async function GET() {
         id: m.id,
         title: m.title,
         type: type,
+        unit: m.unit || 'Miscellaneous',
         xp: m.xpReward,
         status: status,
         emoji: emoji,

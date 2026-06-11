@@ -22,6 +22,14 @@ export default function StudentDashboardKids() {
   const user = dashboardData.user;
   const missions = dashboardData.missions;
 
+  // Group missions by unit
+  const missionsByUnit = missions.reduce((acc: any, mission: any) => {
+    const unit = mission.unit || 'Miscellaneous';
+    if (!acc[unit]) acc[unit] = [];
+    acc[unit].push(mission);
+    return acc;
+  }, {});
+
   return (
     <div className="min-h-screen bg-[#FFFBEB] p-4 md:p-8 font-sans">
       {/* Playful Header */}
@@ -64,43 +72,48 @@ export default function StudentDashboardKids() {
             </Link>
           </div>
           
-          {/* Mission Cards: Stack on mobile, grid on tablet/desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {missions.map((mission: any) => (
-              <div 
-                key={mission.id} 
-                className={`p-5 rounded-[2rem] border-4 transition-transform ${mission.color} ${
-                  mission.status === 'locked' ? 'opacity-80' : 'hover:-translate-y-2 hover:shadow-[0_8px_0_rgba(0,0,0,0.1)]'
-                }`}
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div className="text-5xl">{mission.emoji}</div>
-                  <div className="bg-white/80 px-3 py-1 rounded-full text-sm font-black shadow-sm">
-                    {mission.xp} ⭐
+          {/* Mission Cards Grouped by Unit */}
+          {Object.entries(missionsByUnit).map(([unit, unitMissions]: [string, any]) => (
+            <div key={unit} className="mb-8">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+                <span className="bg-orange-500 text-white text-sm px-3 py-1 rounded-full">{unit.split(':')[0]}</span>
+                {unit.split(':')[1] || unit}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {unitMissions.map((mission: any) => (
+                  <div 
+                    key={mission.id} 
+                    className={`p-5 rounded-[2rem] border-4 transition-transform ${mission.color} ${
+                      mission.status === "locked" ? "opacity-75" : "hover:-translate-y-1 cursor-pointer shadow-sm hover:shadow-md"
+                    }`}
+                  >
+                    <div className="flex justify-between items-start mb-3">
+                      <span className="text-4xl drop-shadow-sm">{mission.emoji}</span>
+                      <span className="font-bold text-sm bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm shadow-sm">{mission.xp} ⭐</span>
+                    </div>
+                    <h3 className="font-extrabold text-xl mb-1 tracking-tight">{mission.title}</h3>
+                    <p className="text-sm font-medium opacity-80 mb-4">{mission.type}</p>
+                    
+                    {mission.status === "completed" ? (
+                      <div className="w-full py-3 bg-white/40 rounded-2xl font-bold text-center border-2 border-transparent text-green-700">
+                        DONE! 🎉
+                      </div>
+                    ) : mission.status === "locked" ? (
+                      <div className="w-full py-3 bg-gray-200/50 rounded-2xl font-bold text-center text-gray-500 border-2 border-gray-300 border-dashed">
+                        LOCKED 🔒
+                      </div>
+                    ) : (
+                      <Link href={`/student/mission/${mission.id}`} className="block">
+                        <button className="w-full py-3 bg-white hover:bg-orange-50 rounded-2xl font-bold text-center border-2 border-white transition-colors shadow-sm text-orange-600 hover:border-orange-200 hover:scale-[1.02] active:scale-95">
+                          PLAY NOW! 🚀
+                        </button>
+                      </Link>
+                    )}
                   </div>
-                </div>
-                
-                <h3 className="font-extrabold text-xl mb-1">{mission.title}</h3>
-                <p className="text-sm font-bold opacity-80 mb-4">{mission.type}</p>
-                
-                {mission.status === 'pending' && (
-                  <Link href={`/student/mission/${mission.id}`} className="block w-full text-center bg-white text-current py-3 rounded-2xl font-black text-lg border-2 border-current shadow-sm hover:scale-105 transition-transform">
-                    PLAY NOW! 🚀
-                  </Link>
-                )}
-                {mission.status === 'completed' && (
-                  <div className="w-full text-center bg-white/50 py-3 rounded-2xl font-black">
-                    DONE! 🎉
-                  </div>
-                )}
-                {mission.status === 'locked' && (
-                  <div className="w-full text-center bg-white/50 py-3 rounded-2xl font-black">
-                    LOCKED 🔒
-                  </div>
-                )}
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
           
           <Link href="/student/map" className="block w-full text-center text-sky-500 font-bold bg-sky-100 px-4 py-4 rounded-2xl border-2 border-sky-200 sm:hidden">
             Open Full Map 🧭

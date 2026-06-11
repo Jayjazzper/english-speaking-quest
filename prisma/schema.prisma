@@ -51,6 +51,7 @@ model Mission {
   title       String
   description String
   cefrLevel   String   // A1, A2, B1, B2
+  unit        String?  // E.g., "Unit 1: Daily Life"
   xpReward    Int      @default(10)
   classroomId String?
   classroom   Classroom? @relation(fields: [classroomId], references: [id])
