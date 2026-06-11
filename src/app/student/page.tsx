@@ -45,14 +45,14 @@ export default function StudentDashboardKids() {
       {screen === 'mode' && (
         <div className="max-w-6xl mx-auto text-center fade-in-up">
           <div className="relative mb-12 z-20">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 via-pink-400/20 to-blue-400/20 rounded-3xl blur-3xl z-10"></div>
-            <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/30 z-20 shadow-2xl">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 fun-title drop-shadow-lg leading-tight">เลือกโหมดการเรียน</h2>
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 via-pink-400/20 to-blue-400/20 rounded-3xl blur-3xl z-10 dark:opacity-50"></div>
+            <div className="relative bg-white/50 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl p-8 border border-gray-200 dark:border-gray-700 z-20 shadow-xl">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 fun-title drop-shadow-sm leading-tight">เลือกโหมดการเรียน</h2>
               <div className="flex items-center justify-center space-x-3 mb-2">
                   <div className="sparkle" style={{ animationDelay: '0.5s' }}>✨</div>
                   <div className="sparkle" style={{ animationDelay: '1.5s' }}>⭐</div>
               </div>
-              <p className="text-xl md:text-2xl text-white/90 font-medium tracking-wide">เริ่มต้นการผจญภัยภาษาอังกฤษของคุณ! 🚀</p>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-medium tracking-wide">เริ่มต้นการผจญภัยภาษาอังกฤษของคุณ! 🚀</p>
             </div>
           </div>
           
@@ -97,17 +97,17 @@ export default function StudentDashboardKids() {
         <div className="max-w-6xl mx-auto text-center fade-in-up">
           <button 
             onClick={() => setScreen('mode')}
-            className="mb-6 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur flex items-center space-x-2 transition-all mx-auto font-bold"
+            className="mb-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-xl flex items-center space-x-2 transition-all mx-auto font-bold shadow-sm"
           >
             <span>←</span>
             <span>กลับไปเลือกโหมด</span>
           </button>
           
           <div className="relative mb-12 z-20">
-            <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 via-blue-400/20 to-purple-400/20 rounded-3xl blur-3xl z-10"></div>
-            <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/30 z-20 shadow-2xl">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 fun-title drop-shadow-lg leading-tight">เลือกระดับชั้นเรียน</h2>
-              <p className="text-xl md:text-2xl text-white/90 font-medium tracking-wide">เลือกระดับที่เหมาะกับความสามารถของคุณ! 📚</p>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 via-blue-400/20 to-purple-400/20 rounded-3xl blur-3xl z-10 dark:opacity-50"></div>
+            <div className="relative bg-white/50 dark:bg-gray-800/80 backdrop-blur-md rounded-3xl p-8 border border-gray-200 dark:border-gray-700 z-20 shadow-xl">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 fun-title drop-shadow-sm leading-tight">เลือกระดับชั้นเรียน</h2>
+              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-medium tracking-wide">เลือกระดับที่เหมาะกับความสามารถของคุณ! 📚</p>
             </div>
           </div>
           
@@ -152,15 +152,15 @@ export default function StudentDashboardKids() {
         <div className="max-w-6xl mx-auto fade-in-up">
           <button 
             onClick={() => setScreen('grade')}
-            className="mb-6 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl backdrop-blur flex items-center space-x-2 transition-all font-bold"
+            className="mb-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-xl flex items-center space-x-2 transition-all mx-auto font-bold shadow-sm"
           >
             <span>←</span>
             <span>กลับไปเลือกระดับชั้น</span>
           </button>
           
           <div className="text-center mb-10">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 fun-title drop-shadow-md">เลือกภารกิจที่อยากฝึกสนทนา</h2>
-              <p className="text-white/90 text-lg font-medium">คลิกที่ภารกิจเพื่อเริ่มผจญภัยภาษาอังกฤษ!</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 fun-title drop-shadow-sm">เลือกภารกิจที่อยากฝึกสนทนา</h2>
+              <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">คลิกที่ภารกิจเพื่อเริ่มผจญภัยภาษาอังกฤษ!</p>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
@@ -168,8 +168,8 @@ export default function StudentDashboardKids() {
             {/* Missions Section */}
             <div className="lg:col-span-2 space-y-8">
               {Object.entries(missionsByUnit).map(([unit, unitMissions]: [string, any]) => (
-                <div key={unit} className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 shadow-xl">
-                  <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3 drop-shadow-md">
+                <div key={unit} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-3xl border border-gray-200 dark:border-gray-700 shadow-xl">
+                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3 drop-shadow-sm">
                     <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-1.5 rounded-full shadow-lg">{unit.split(':')[0]}</span>
                     {unit.split(':')[1] || unit}
                   </h2>
@@ -211,27 +211,27 @@ export default function StudentDashboardKids() {
 
             {/* Sidebar / Badges / Shop */}
             <div className="space-y-6">
-              <div className="glass-morphism p-6 rounded-3xl border border-white/30 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <h2 className="text-2xl font-extrabold text-white mb-4 text-center fun-title relative z-10 drop-shadow-md">My Badges 🏅</h2>
+              <div className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-3xl border border-gray-200 dark:border-gray-700 relative overflow-hidden group shadow-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h2 className="text-2xl font-extrabold text-gray-800 dark:text-white mb-4 text-center fun-title relative z-10 drop-shadow-sm">My Badges 🏅</h2>
                 <div className="grid grid-cols-3 gap-3 relative z-10">
-                  <div className="aspect-square bg-white rounded-2xl flex items-center justify-center border-2 border-yellow-400 shadow-lg floating hover:scale-110 transition-transform">
+                  <div className="aspect-square bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center border-2 border-yellow-400 shadow-lg floating hover:scale-110 transition-transform">
                     <span className="text-3xl">🌟</span>
                   </div>
-                  <div className="aspect-square bg-white rounded-2xl flex items-center justify-center border-2 border-orange-400 shadow-lg floating" style={{ animationDelay: '0.2s' }}>
+                  <div className="aspect-square bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center border-2 border-orange-400 shadow-lg floating" style={{ animationDelay: '0.2s' }}>
                     <span className="text-3xl">🔥</span>
                   </div>
-                  <div className="aspect-square bg-white/30 rounded-2xl flex items-center justify-center border-2 border-dashed border-white/50 backdrop-blur">
-                    <span className="text-white/50 text-2xl">🔒</span>
+                  <div className="aspect-square bg-gray-100 dark:bg-gray-600 rounded-2xl flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 backdrop-blur">
+                    <span className="text-gray-400 dark:text-gray-500 text-2xl">🔒</span>
                   </div>
                 </div>
               </div>
 
-              <div className="glass-morphism p-6 rounded-3xl border border-white/30 text-center relative overflow-hidden group">
-                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                 <div className="text-6xl mb-4 animate-bounce relative z-10 drop-shadow-lg">🛍️</div>
-                 <h2 className="text-2xl font-extrabold text-white mb-2 fun-title relative z-10 drop-shadow-md">Avatar Shop</h2>
-                 <p className="text-white/80 font-medium mb-6 relative z-10">Spend your stars!</p>
+              <div className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-3xl border border-gray-200 dark:border-gray-700 text-center relative overflow-hidden group shadow-xl">
+                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                 <div className="text-6xl mb-4 animate-bounce relative z-10 drop-shadow-md">🛍️</div>
+                 <h2 className="text-2xl font-extrabold text-gray-800 dark:text-white mb-2 fun-title relative z-10 drop-shadow-sm">Avatar Shop</h2>
+                 <p className="text-gray-600 dark:text-gray-300 font-medium mb-6 relative z-10">Spend your stars!</p>
                  <Link href="/student/shop" className="relative z-10 inline-block w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-black py-3.5 rounded-2xl hover:scale-105 shadow-xl transition-transform border border-pink-400/50">
                    Visit Shop
                  </Link>

@@ -3,13 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import SettingsModal from "./SettingsModal";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function StudentNavbar({ xp = 20, coins = 150, stars = 3, level = 1 }: { xp?: number, coins?: number, stars?: number, level?: number }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <>
-      <div className="nav-glass shadow-lg border-b border-white/10 sticky top-0 z-40">
+      <div className="nav-glass shadow-lg border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 bg-white/50 dark:bg-gray-900/50">
         <div className="container mx-auto px-4 md:px-8 py-4 md:py-6">
           {/* Top Row: Logo and Navigation */}
           <div className="flex flex-col md:flex-row items-center justify-between mb-4 gap-4">
@@ -20,19 +21,20 @@ export default function StudentNavbar({ xp = 20, coins = 150, stars = 3, level =
                 <div className="relative text-5xl md:text-6xl floating-icon stagger-1 mascot-breathing drop-shadow-lg">🎓</div>
               </div>
               <div className="flex flex-col">
-                <h1 className="text-2xl md:text-4xl font-bold fun-title leading-tight mb-1">English Adventure</h1>
+                <h1 className="text-2xl md:text-4xl font-bold fun-title leading-tight mb-1 dark:text-white">English Adventure</h1>
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-white/90 text-sm font-medium tracking-wide">Learn & Play Together! 🌟</span>
+                  <span className="text-gray-700 dark:text-gray-300 text-sm font-medium tracking-wide">Learn & Play Together! 🌟</span>
                 </div>
               </div>
             </Link>
             
             {/* Navigation Buttons */}
             <div className="flex items-center space-x-3 w-full md:w-auto justify-end">
+              <ThemeToggle />
               <button 
                 onClick={() => setIsSettingsOpen(true)}
-                className="bg-white/90 hover:bg-white text-gray-900 px-4 py-3 md:px-6 md:py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-md border border-white/40 flex items-center space-x-2"
+                className="bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-4 py-3 md:px-6 md:py-4 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 shadow-md border border-gray-200 dark:border-gray-600 flex items-center space-x-2"
               >
                 <span className="text-xl">⚙️</span>
                 <span className="text-sm md:text-base hidden sm:inline">ตั้งค่าระบบ</span>

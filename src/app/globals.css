@@ -5,34 +5,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc; /* Very light slate for standard mode */
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #0f172a; /* Dark slate */
+  --foreground: #f8fafc;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   line-height: 1.6;
-  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  position: relative;
-  overflow-x: hidden;
+  background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 1;
-}
+/* 
+ * NOTE: The glowing animated gradient and ::before overlay 
+ * have been completely removed per user request to reduce visual strain.
+ */
 
 .content-wrapper {
   position: relative;
