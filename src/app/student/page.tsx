@@ -29,15 +29,20 @@ export default function StudentDashboardKids() {
   }
 
   const user = dashboardData.user;
-  const missions = dashboardData.missions;
-
-  // Group missions by unit
-  const missionsByUnit = missions.reduce((acc: any, mission: any) => {
-    const unit = mission.unit || 'Miscellaneous';
-    if (!acc[unit]) acc[unit] = [];
-    acc[unit].push(mission);
-    return acc;
-  }, {});
+  const user = dashboardData.user;
+  
+  const topics = [
+    { id: 't1', title: 'การทักทายและแนะนำตัว', emoji: '👋', color: 'from-[#6B8DFF] to-[#7B61FF]' },
+    { id: 't2', title: 'ภาษาที่ใช้ในห้องเรียน', emoji: '🏫', color: 'from-[#FF8A9B] to-[#FF5E89]' },
+    { id: 't3', title: 'สภาพอากาศและฤดูกาล', emoji: '☀️', color: 'from-[#D87BFF] to-[#FF8CA9]' },
+    { id: 't4', title: 'การซื้อของและตัวเลข', emoji: '🛒', color: 'from-[#4DB8FF] to-[#20D3FF]' },
+    { id: 't5', title: 'ครอบครัวและเพื่อน', emoji: '👨‍👩‍👧‍👦', color: 'from-[#42E3B4] to-[#2BDCA4]' },
+    { id: 't6', title: 'การเดินทางและสถานที่', emoji: '✈️', color: 'from-[#FF9E67] to-[#FFC556]' },
+    { id: 't7', title: 'กิจวัตรประจำวัน', emoji: '⏰', color: 'from-[#3AC9FF] to-[#20A4FF]' },
+    { id: 't8', title: 'อาหารและเครื่องดื่ม', emoji: '🍎', color: 'from-[#67E2A4] to-[#47D59A]' },
+    { id: 't9', title: 'สัตว์และธรรมชาติ', emoji: '🐶', color: 'from-[#E1A27A] to-[#E9CD57]' },
+    { id: 't10', title: 'งานอดิเรกและเวลาว่าง', emoji: '🎨', color: 'from-[#6479DF] to-[#7A5BCA]' },
+  ];
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
@@ -159,98 +164,61 @@ export default function StudentDashboardKids() {
         <div className="max-w-6xl mx-auto fade-in-up">
           <button 
             onClick={() => setScreen('grade')}
-            className="mb-6 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-xl flex items-center space-x-2 transition-all mx-auto font-bold shadow-sm"
+            className="mb-8 bg-white/50 hover:bg-white dark:bg-gray-800/50 dark:hover:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-xl flex items-center space-x-2 transition-all mx-auto font-bold shadow-sm backdrop-blur-md border border-gray-200 dark:border-gray-700"
           >
             <span>←</span>
             <span>กลับไปเลือกระดับชั้น</span>
           </button>
           
-          <div className="text-center mb-10">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 fun-title drop-shadow-sm">เลือกภารกิจที่อยากฝึกสนทนา</h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg font-medium">คลิกที่ภารกิจเพื่อเริ่มผจญภัยภาษาอังกฤษ!</p>
+          <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-800 dark:text-white mb-4 drop-shadow-sm tracking-tight" style={{ fontFamily: 'var(--font-fredoka)' }}>เลือกหัวข้อที่อยากฝึกสนทนา</h2>
+              <p className="text-gray-500 dark:text-gray-300 text-xl font-medium tracking-wide">คลิกที่หัวข้อที่สนใจเพื่อเริ่มผจญภัยภาษาอังกฤษ</p>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-            
-            {/* Missions Section */}
-            <div className="lg:col-span-2 space-y-8">
-              {Object.entries(missionsByUnit).map(([unit, unitMissions]: [string, any]) => (
-                <div key={unit} className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-3xl border border-gray-200 dark:border-gray-700 shadow-xl">
-                  <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3 drop-shadow-sm">
-                    <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm px-4 py-1.5 rounded-full shadow-lg">{unit.split(':')[0]}</span>
-                    {unit.split(':')[1] || unit}
-                    <TextToSpeech text={unit.split(':')[1] || unit} className="scale-75 ml-2" />
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    {unitMissions.map((mission: any) => (
-                      <Link href={`/student/mission/${mission.id}`} key={mission.id} className="block">
-                        <div 
-                          className={`mode-card p-6 rounded-2xl border-2 transition-all bg-white/95 backdrop-blur shadow-lg ${
-                            mission.status === "locked" ? "opacity-75 border-gray-300" : "border-white hover:border-purple-300"
-                          }`}
-                        >
-                          <div className="flex justify-between items-start mb-4">
-                            <span className="text-5xl drop-shadow-md floating-icon">{mission.emoji}</span>
-                            <span className="font-bold text-sm bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full shadow-md">{mission.xp} ⭐</span>
-                          </div>
-                          <div className="flex justify-between items-center mb-2">
-                            <h3 className="font-extrabold text-xl text-gray-800 tracking-tight">{mission.title}</h3>
-                            <div onClick={(e) => e.preventDefault()}>
-                              <TextToSpeech text={mission.title} className="scale-75" />
-                            </div>
-                          </div>
-                          <p className="text-sm font-medium text-gray-500 mb-4">{mission.type}</p>
-                          
-                          {mission.status === "completed" ? (
-                            <div className="w-full py-2.5 bg-green-100 rounded-xl font-bold text-center border border-green-200 text-green-700">
-                              DONE! 🎉
-                            </div>
-                          ) : mission.status === "locked" ? (
-                            <div className="w-full py-2.5 bg-gray-100 rounded-xl font-bold text-center text-gray-400 border border-gray-200">
-                              LOCKED 🔒
-                            </div>
-                          ) : (
-                            <div className="w-full py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl font-bold text-center text-white shadow-md group-hover:scale-105 transition-transform">
-                              PLAY NOW! 🚀
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            {topics.map((topic) => (
+              <div 
+                key={topic.id} 
+                className={`relative overflow-hidden rounded-[2.5rem] p-8 md:p-10 shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-3xl bg-gradient-to-br ${topic.color} text-white border border-white/20`}
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-xl -ml-5 -mb-5 pointer-events-none"></div>
+                
+                <div className="relative z-10 flex flex-col items-center text-center h-full">
+                  <div className="text-6xl md:text-7xl mb-6 drop-shadow-lg floating-icon">{topic.emoji}</div>
+                  
+                  <h3 className="text-2xl md:text-3xl font-bold mb-6 tracking-wide drop-shadow-md flex items-center gap-2">
+                    {topic.title}
+                    <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                      <TextToSpeech text={topic.title} className="scale-75 opacity-70 hover:opacity-100" />
+                    </div>
+                  </h3>
+                  
+                  <div className="bg-white/20 backdrop-blur-md px-5 py-1.5 rounded-full text-sm font-bold tracking-widest mb-4 shadow-sm border border-white/30">
+                    Pre-A1 - A1
                   </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Sidebar / Badges / Shop */}
-            <div className="space-y-6">
-              <div className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-3xl border border-gray-200 dark:border-gray-700 relative overflow-hidden group shadow-xl">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <h2 className="text-2xl font-extrabold text-gray-800 dark:text-white mb-4 text-center fun-title relative z-10 drop-shadow-sm">My Badges 🏅</h2>
-                <div className="grid grid-cols-3 gap-3 relative z-10">
-                  <div className="aspect-square bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center border-2 border-yellow-400 shadow-lg floating hover:scale-110 transition-transform">
-                    <span className="text-3xl">🌟</span>
+                  
+                  <p className="text-white/90 font-medium mb-4">5 บทสนทนา</p>
+                  
+                  <div className="flex gap-2 mb-8">
+                    <div className="w-2.5 h-2.5 bg-white rounded-full opacity-100 shadow-sm"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full opacity-60"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full opacity-40"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full opacity-20"></div>
+                    <div className="w-2.5 h-2.5 bg-white rounded-full opacity-20"></div>
                   </div>
-                  <div className="aspect-square bg-white dark:bg-gray-700 rounded-2xl flex items-center justify-center border-2 border-orange-400 shadow-lg floating" style={{ animationDelay: '0.2s' }}>
-                    <span className="text-3xl">🔥</span>
-                  </div>
-                  <div className="aspect-square bg-gray-100 dark:bg-gray-600 rounded-2xl flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-500 backdrop-blur">
-                    <span className="text-gray-400 dark:text-gray-500 text-2xl">🔒</span>
+                  
+                  <div className="flex gap-4 w-full mt-auto">
+                    <Link href={`/student/mission/mcq/${topic.id}`} className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-sm border border-white/30">
+                      <span className="text-xl">💬</span> เริ่มสนทนา
+                    </Link>
+                    <button className="flex-1 bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-sm border border-white/30">
+                      <span className="text-xl">📚</span> คำศัพท์
+                    </button>
                   </div>
                 </div>
               </div>
-
-              <div className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-3xl border border-gray-200 dark:border-gray-700 text-center relative overflow-hidden group shadow-xl">
-                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                 <div className="text-6xl mb-4 animate-bounce relative z-10 drop-shadow-md">🛍️</div>
-                 <h2 className="text-2xl font-extrabold text-gray-800 dark:text-white mb-2 fun-title relative z-10 drop-shadow-sm">Avatar Shop</h2>
-                 <p className="text-gray-600 dark:text-gray-300 font-medium mb-6 relative z-10">Spend your stars!</p>
-                 <Link href="/student/shop" className="relative z-10 inline-block w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-black py-3.5 rounded-2xl hover:scale-105 shadow-xl transition-transform border border-pink-400/50">
-                   Visit Shop
-                 </Link>
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
       )}
